@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ReactComponent as Vector } from "../../assets/vector.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort, setType } from "../../redux/sort/sortSlice";
@@ -6,6 +6,8 @@ import { setSort, setType } from "../../redux/sort/sortSlice";
 const Sort = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [sortBy, setSortBy] = useState("популярности");
+
+  const sortRef = useRef();
 
   const sortList = [
     { name: "популярности", sort: "rating" },
@@ -23,10 +25,26 @@ const Sort = () => {
     setSortBy(type);
     setIsVisible(!isVisible);
   };
+
   const orderClassName = type === "asc" ? "asc" : "desc";
 
+  useEffect(() => {
+    const closePopup = (event) => {
+      if (!sortRef.current.contains(event.target)) {
+        setIsVisible(false);
+      }
+    };
+  
+    document.body.addEventListener("click", closePopup);
+  
+    return () => {
+      document.body.removeEventListener("click", closePopup);
+    };
+  }, []);
+  
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <Vector
           onClick={() => dispatch(setType(order))}

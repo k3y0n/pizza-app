@@ -1,4 +1,4 @@
-import React, { useId, useEffect, useState } from "react";
+import React, { useId, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setFiltersSort } from "../redux/sort/sortSlice";
 import { setFiltersCategory } from "../redux/category/categorySlice";
@@ -19,6 +19,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pizzaList, setPizzaList] = useState([]);
   const navigate = useNavigate();
+  const isMounted = useRef(false);
 
   const currentPage = useSelector((state) => state.page.value);
   const { sort, type } = useSelector((state) => state.sort);
@@ -59,29 +60,33 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      
-      dispatch(setFiltersSort(params.sort));
-      dispatch(setFiltersCategory(params.categoryId));
-      dispatch(setFiltersPage(params.currentPage));
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sort,
+        categoryId,
+        currentPage,
+      });
+
+      navigate(`?${queryString}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const queryString = qs.stringify({
-      sort,
-      categoryId,
-      currentPage,
-    });
-
-    navigate(`?${queryString}`);
 
     getData();
     setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sort, currentPage, type]);
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+
+      dispatch(setFiltersSort(params.sort));
+      dispatch(setFiltersCategory(params.categoryId));
+      dispatch(setFiltersPage(params.currentPage));
+    }
+    isMounted.current = true;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="container">

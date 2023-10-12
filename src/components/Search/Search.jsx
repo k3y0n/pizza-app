@@ -41,7 +41,7 @@ const Search = () => {
         className={styles.search__input}
         value={searchValue}
         type="text"
-        placeholder="search pizza..."
+        placeholder="поиск пиццы..."
         onChange={onChangeInput}
       ></input>
       <BsSearch className={styles.search__icon_search} />

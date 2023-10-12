@@ -1,8 +1,6 @@
-import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React from "react";
 
 const Details = () => {
-  const { id } = useParams();
   return <div>Details</div>;
 };
 

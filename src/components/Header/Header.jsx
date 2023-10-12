@@ -12,7 +12,7 @@ const Header = () => {
           <div className="header__logo">
             <Logo />
             <div>
-              <h1>React Pizza</h1>
+              <h1>Pizza App</h1>
               <p>самая вкусная пицца во вселенной</p>
             </div>
           </div>
