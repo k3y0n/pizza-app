@@ -1,4 +1,5 @@
 import React, { useId, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Skeleton from '../components/Pizza/Skeleton';
 import Categories from '../components/Categories/Categories';
 import Sort from '../components/Sort/Sort';
@@ -9,9 +10,8 @@ const Home = ({ search }) => {
   const id = useId();
   const [isLoading, setIsLoading] = useState(true);
   const [pizzaList, setPizzaList] = useState([]);
-  const [categoryId, setCategoryId] = useState(0);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [sort, setSort] = useState('rating');
   const categories = [
     'Все',
     'Мясные',
@@ -20,6 +20,9 @@ const Home = ({ search }) => {
     'Острые',
     'Закрытые',
   ];
+  const sort = useSelector((state) => state.sort.value);
+  const categoryId = useSelector((state) => state.category.value);
+
   const pizzas = (
     <PizzaList
       pizzaList={pizzaList.filter((item) =>
@@ -45,19 +48,14 @@ const Home = ({ search }) => {
   useEffect(() => {
     getData();
     setIsLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, sort, currentPage]);
 
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories
-          categoryId={categoryId}
-          handleCategory={(id) => setCategoryId(id)}
-        />
-        <Sort
-          sort={sort}
-          handleSort={(item) => setSort(item)}
-        />
+        <Categories />
+        <Sort />
       </div>
       <h2 className='content__title'>{categories[categoryId]} пиццы</h2>
       <div className='content__items'>{isLoading ? skeletons : pizzas}</div>
