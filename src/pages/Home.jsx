@@ -5,6 +5,7 @@ import Categories from "../components/Categories/Categories";
 import Sort from "../components/Sort/Sort";
 import PizzaList from "../components/PizzaList/PizzaList";
 import Pagination from "../components/Pagination/Pagination";
+import axios from "axios";
 
 const Home = () => {
   const id = useId();
@@ -12,8 +13,7 @@ const Home = () => {
   const [pizzaList, setPizzaList] = useState([]);
 
   const currentPage = useSelector((state) => state.page.value);
-  const sort = useSelector((state) => state.sort.value);
-  const type = useSelector((state) => state.sort.type);
+  const { sort, type } = useSelector((state) => state.sort);
   const categoryId = useSelector((state) => state.category.value);
   const search = useSelector((state) => state.search.value);
 
@@ -39,12 +39,12 @@ const Home = () => {
 
   const getData = async () => {
     setIsLoading(true);
-    const response = await fetch(
+    const response = await axios.get(
       `https://651124e6829fa0248e3f8e9e.mockapi.io/items?page=${currentPage}&limit=4&${
         categoryId === 0 ? "" : `category=${categoryId}`
       }&sortBy=${sort}&order=${type}`
     );
-    const data = await response.json();
+    const data = await response.data;
     setPizzaList(data);
   };
 

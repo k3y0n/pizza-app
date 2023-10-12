@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export const searchSlice = createSlice({
-  name: 'page',
+  name: "page",
   initialState: {
-    value: '',
+    value: "",
   },
   reducers: {
     setSearch: (state, action) => {

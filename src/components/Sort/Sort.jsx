@@ -6,13 +6,14 @@ import { setSort, setType } from "../../redux/sort/sortSlice";
 const Sort = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [sortBy, setSortBy] = useState("популярности");
+
   const sortList = [
     { name: "популярности", sort: "rating" },
     { name: "цене", sort: "price" },
     { name: "алфавиту", sort: "title" },
   ];
-  const sort = useSelector((state) => state.sort.value);
-  const type = useSelector((state) => state.sort.type);
+
+  const { sort, type } = useSelector((state) => state.sort);
   const dispatch = useDispatch();
 
   const order = type === "asc" ? "desc" : "asc";

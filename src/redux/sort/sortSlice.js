@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 export const sortSlice = createSlice({
   name: "sort",
   initialState: {
-    value: "rating",
+    sort: "rating",
     type: "asc",
   },
   reducers: {
     setSort: (state, action) => {
-      state.value = action.payload;
+      state.sort = action.payload;
     },
     setType: (state, action) => {
       state.type = action.payload;

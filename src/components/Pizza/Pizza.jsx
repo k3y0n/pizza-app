@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ReactComponent as AddOrange } from '../../assets/add-orange.svg';
 
 const Pizza = ({ title, price, imageUrl, sizes, types }) => {
-  const [activeType, setActiveType] = useState(0);
+  const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
   const typeNames = ['тонкое', 'традиционное'];
 
