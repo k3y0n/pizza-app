@@ -1,10 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import categorySlice from './category/categorySlice';
-import sortSlice from './sort/sortSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import categorySlice from "./category/categorySlice";
+import sortSlice from "./sort/sortSlice";
+import pageSlice from "./page/pageSlice";
+import searchSlice from "./search/searchSlice";
 
 export default configureStore({
   reducer: {
     category: categorySlice,
     sort: sortSlice,
+    page: pageSlice,
+    search: searchSlice,
   },
 });

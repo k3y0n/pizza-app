@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ReactComponent as Vector } from "../../assets/vector.svg";
 import { useSelector, useDispatch } from "react-redux";
-import { setSort } from "../../redux/sort/sortSlice";
+import { setSort, setType } from "../../redux/sort/sortSlice";
 
 const Sort = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -12,19 +12,28 @@ const Sort = () => {
     { name: "алфавиту", sort: "title" },
   ];
   const sort = useSelector((state) => state.sort.value);
+  const type = useSelector((state) => state.sort.type);
   const dispatch = useDispatch();
+
+  const order = type === "asc" ? "desc" : "asc";
 
   const onSortBy = (type, sort) => {
     dispatch(setSort(sort));
     setSortBy(type);
     setIsVisible(!isVisible);
   };
+  const orderClassName = type === "asc" ? "asc" : "desc";
 
   return (
     <div className="sort">
       <div className="sort__label">
-        <Vector />
-        <b>Сортировка по:</b>
+        <Vector
+          onClick={() => dispatch(setType(order))}
+          className={`sort__icon sort__icon-${orderClassName}`}
+        />
+        <b onClick={() => dispatch(setType(order))} className="sort__type">
+          Сортировка по:
+        </b>
         <span onClick={() => setIsVisible(!isVisible)}>{sortBy}</span>
       </div>
       {isVisible && (

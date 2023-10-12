@@ -20,6 +20,15 @@
       cursor: pointer;
     }
   }
+  &__type{
+    cursor: pointer;
+  }
+  &__icon{
+    cursor: pointer;
+    &-desc{
+      transform: rotate(180deg);
+    }
+  }
 
   &__popup {
     position: absolute;
