@@ -13,10 +13,13 @@ export const sortSlice = createSlice({
     setType: (state, action) => {
       state.type = action.payload;
     },
+    setFiltersSort: (state, action) => {
+      state.sort = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setSort, setType } = sortSlice.actions;
+export const { setSort, setType, setFiltersSort } = sortSlice.actions;
 
 export default sortSlice.reducer;
