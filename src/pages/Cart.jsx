@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactComponent as CartIcon } from "../assets/cart.svg";
 import { ReactComponent as TrashIcon } from "../assets/trash.svg";
 import { ReactComponent as BackIcon } from "../assets/back.svg";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getTotalPrice,
+  removeProducts,
+  removeProduct,
+} from "../redux/cart/cartSlice";
+import { CartEmpty } from "../components/CartEmpty/CartEmpty";
 
 const Cart = () => {
+  const pizzaItems = useSelector((state) => state.cart.items);
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTotalPrice()); // Dispatch the action to calculate total price
+  }, [dispatch]);
+
+  if (!pizzaItems.length) {
+    return <CartEmpty />;
+  }
+
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -15,17 +34,19 @@ const Cart = () => {
           </h2>
           <div className="cart__clear">
             <TrashIcon />
-            <span>Очистить корзину</span>
+            <span onClick={() => dispatch(removeProducts())}>
+              Очистить корзину
+            </span>
           </div>
         </div>
         <div className="content__items"></div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              Всего пицц: <b> шт.</b>
+              Всего пицц: <b>{pizzaItems.length} шт.</b>
             </span>
             <span>
-              Сумма заказа: <b> ₽</b>
+              Сумма заказа: <b>{totalPrice} ₽</b>
             </span>
           </div>
           <div className="cart__bottom-buttons">
