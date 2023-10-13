@@ -22,11 +22,27 @@ export const cartSlice = createSlice({
     removeProducts: (state) => {
       state.items = [];
     },
+    addQuantity: (state, action) => {
+      state.items.map((item) =>
+        item.id === action.payload ? item.count++ : item
+      );
+    },
+    subtractQuantity: (state, action) => {
+      state.items.map((item) =>
+        item.id === action.payload ? item.count-- : item
+      );
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addProduct, removeProduct, getTotalPrice, removeProducts } =
-  cartSlice.actions;
+export const {
+  addProduct,
+  removeProduct,
+  getTotalPrice,
+  removeProducts,
+  addQuantity,
+  subtractQuantity,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

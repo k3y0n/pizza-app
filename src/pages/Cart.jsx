@@ -10,6 +10,7 @@ import {
   removeProduct,
 } from "../redux/cart/cartSlice";
 import { CartEmpty } from "../components/CartEmpty/CartEmpty";
+import { CartItem } from "../components/CartItem/CartItem";
 
 const Cart = () => {
   const pizzaItems = useSelector((state) => state.cart.items);
@@ -17,7 +18,7 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTotalPrice()); // Dispatch the action to calculate total price
+    dispatch(getTotalPrice());
   }, [dispatch]);
 
   if (!pizzaItems.length) {
@@ -39,7 +40,11 @@ const Cart = () => {
             </span>
           </div>
         </div>
-        <div className="content__items"></div>
+        <div className="content__items">
+          {pizzaItems.map((pizza) => (
+            <CartItem key={pizza.id} {...pizza} />
+          ))}
+        </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
