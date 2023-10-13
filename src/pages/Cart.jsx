@@ -4,11 +4,7 @@ import { ReactComponent as TrashIcon } from "../assets/trash.svg";
 import { ReactComponent as BackIcon } from "../assets/back.svg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTotalPrice,
-  removeProducts,
-  removeProduct,
-} from "../redux/cart/cartSlice";
+import { removeProducts, removeProduct } from "../redux/cart/cartSlice";
 import { CartEmpty } from "../components/CartEmpty/CartEmpty";
 import { CartItem } from "../components/CartItem/CartItem";
 
@@ -16,10 +12,6 @@ const Cart = () => {
   const pizzaItems = useSelector((state) => state.cart.items);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getTotalPrice());
-  }, [dispatch]);
 
   if (!pizzaItems.length) {
     return <CartEmpty />;
@@ -42,7 +34,7 @@ const Cart = () => {
         </div>
         <div className="content__items">
           {pizzaItems.map((pizza) => (
-            <CartItem key={pizza.id} {...pizza} />
+            <CartItem key={pizza.type} {...pizza} />
           ))}
         </div>
         <div className="cart__bottom">

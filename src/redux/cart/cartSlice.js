@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
+
 
 export const cartSlice = createSlice({
   name: "category",
@@ -8,29 +10,37 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addProduct: (state, action) => {
-      state.items.push(action.payload);
+      const findItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
+
+      if (findItem) {
+        findItem.quantity++;
+      } else {
+        state.items.push(action.payload);
+      }
+
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     removeProduct: (state, action) => {
-      state.items.filter((item) => item.id !== action.payload);
-    },
-    getTotalPrice: (state) => {
-      state.totalPrice = state.items.reduce(
-        (acc, item) => (acc += item.price),
-        0
-      );
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     removeProducts: (state) => {
       state.items = [];
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     addQuantity: (state, action) => {
       state.items.map((item) =>
         item.id === action.payload ? item.count++ : item
       );
+      state.totalPrice = calculateTotalPrice(state.items);
     },
     subtractQuantity: (state, action) => {
       state.items.map((item) =>
         item.id === action.payload ? item.count-- : item
       );
+      state.totalPrice = calculateTotalPrice(state.items);
     },
   },
 });

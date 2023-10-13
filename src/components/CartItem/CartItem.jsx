@@ -9,7 +9,7 @@ import { ReactComponent  as MinusIcon } from "../../assets/minus.svg";
 import { ReactComponent  as PlusIcon } from "../../assets/plus.svg";
 import { ReactComponent  as RemoveIcon } from "../../assets/remove.svg";
 
-export const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
+export const CartItem = ({ id, title, type, size, price, quantity, imageUrl }) => {
   const dispatch = useDispatch();
 
   const onClickAdd = () => {
@@ -26,6 +26,7 @@ export const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
 
   const onClickRemove = () => {
     if (window.confirm("Вы действительно хотите удалить товар?")) {
+      console.log(id)
       dispatch(removeProduct(id));
     }
   };
@@ -43,13 +44,13 @@ export const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
       </div>
       <div className="cart__item-count">
         <button
-          disabled={count === 1}
+          disabled={quantity === 1}
           onClick={onClickSubtract}
           className="button button--outline button--circle cart__item-count-minus"
         >
           <MinusIcon />
         </button>
-        <b>{count}</b>
+        <b>{quantity}</b>
         <button
           onClick={onClickAdd}
           className="button button--outline button--circle cart__item-count-plus"
@@ -58,7 +59,7 @@ export const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
         </button>
       </div>
       <div className="cart__item-price">
-        <b>{price * count} ₽</b>
+        <b>{price * quantity} ₽</b>
       </div>
       <div className="cart__item-remove">
         <div
