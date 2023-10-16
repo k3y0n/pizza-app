@@ -9,6 +9,11 @@ const Header = () => {
   const pizzaItems = useSelector((state) => state.cart.items);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
+  const totalPizzas = pizzaItems.reduce(
+    (acc, item) => (acc += item.quantity),
+    0
+  );
+
   return (
     <header className="header">
       <div className="container">
@@ -27,7 +32,7 @@ const Header = () => {
             <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <Cart />
-            <span>{pizzaItems.length}</span>
+            <span>{totalPizzas}</span>
           </Link>
         </div>
       </div>

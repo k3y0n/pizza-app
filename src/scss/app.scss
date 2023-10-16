@@ -228,7 +228,7 @@ body {
       &-minus {
         svg {
           path:first-of-type {
-            display: none;
+            display: block;
           }
         }
 
@@ -283,7 +283,7 @@ body {
       }
 
       svg {
-        transform: rotate(45deg);
+        transform: rotate(90deg);
 
         path {
           fill: darken($color: $gray-line, $amount: 15);

@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateTotalPrice } from "../../utils/calculateTotalPrice";
 
-
 export const cartSlice = createSlice({
   name: "category",
   initialState: {
@@ -28,24 +27,23 @@ export const cartSlice = createSlice({
     },
     removeProducts: (state) => {
       state.items = [];
-      state.totalPrice = calculateTotalPrice(state.items);
+      state.totalPrice = 0;
     },
     addQuantity: (state, action) => {
       state.items.map((item) =>
-        item.id === action.payload ? item.count++ : item
+        item.id === action.payload ? item.quantity++ : item
       );
       state.totalPrice = calculateTotalPrice(state.items);
     },
     subtractQuantity: (state, action) => {
       state.items.map((item) =>
-        item.id === action.payload ? item.count-- : item
+        item.id === action.payload ? item.quantity-- : item
       );
       state.totalPrice = calculateTotalPrice(state.items);
     },
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {
   addProduct,
   removeProduct,

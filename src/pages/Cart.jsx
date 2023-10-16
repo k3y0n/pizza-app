@@ -13,6 +13,12 @@ const Cart = () => {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
   const dispatch = useDispatch();
 
+  const totalPizzas = pizzaItems.reduce(
+    (acc, item) => (acc += item.quantity),
+    0
+  );
+  
+
   if (!pizzaItems.length) {
     return <CartEmpty />;
   }
@@ -34,13 +40,13 @@ const Cart = () => {
         </div>
         <div className="content__items">
           {pizzaItems.map((pizza) => (
-            <CartItem key={pizza.type} {...pizza} />
+            <CartItem key={pizza.id} {...pizza} />
           ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              Всего пицц: <b>{pizzaItems.length} шт.</b>
+              Всего пицц: <b>{totalPizzas} шт.</b>
             </span>
             <span>
               Сумма заказа: <b>{totalPrice} ₽</b>

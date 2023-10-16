@@ -5,19 +5,23 @@ import {
   removeProduct,
   subtractQuantity,
 } from "../../redux/cart/cartSlice";
-import { ReactComponent  as MinusIcon } from "../../assets/minus.svg";
-import { ReactComponent  as PlusIcon } from "../../assets/plus.svg";
-import { ReactComponent  as RemoveIcon } from "../../assets/remove.svg";
+import { ReactComponent as MinusIcon } from "../../assets/minus.svg";
+import { ReactComponent as PlusIcon } from "../../assets/plus.svg";
+import { ReactComponent as RemoveIcon } from "../../assets/remove.svg";
 
-export const CartItem = ({ id, title, type, size, price, quantity, imageUrl }) => {
+export const CartItem = ({
+  id,
+  title,
+  type,
+  size,
+  price,
+  quantity,
+  imageUrl,
+}) => {
   const dispatch = useDispatch();
 
   const onClickAdd = () => {
-    dispatch(
-      addQuantity({
-        id,
-      })
-    );
+    dispatch(addQuantity(id));
   };
 
   const onClickSubtract = () => {
@@ -26,7 +30,6 @@ export const CartItem = ({ id, title, type, size, price, quantity, imageUrl }) =
 
   const onClickRemove = () => {
     if (window.confirm("Вы действительно хотите удалить товар?")) {
-      console.log(id)
       dispatch(removeProduct(id));
     }
   };
