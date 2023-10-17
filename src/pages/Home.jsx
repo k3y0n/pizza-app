@@ -17,7 +17,7 @@ import { setPizzas, fetchPizza } from "../redux/pizza/pizzaSlice";
 const Home = () => {
   const id = useId();
   const [isLoading, setIsLoading] = useState(true);
-  const {items:pizzaList, status} = useSelector((state) => state.pizza);
+  const { items: pizzaList, status } = useSelector((state) => state.pizza);
   const navigate = useNavigate();
   const isMounted = useRef(false);
 
@@ -46,12 +46,12 @@ const Home = () => {
     />
   );
 
-  const skeletons = [...new Array(10)].map((_, i) => <Skeleton key={id + i} />);
+  const skeletons = [...new Array(4)].map((_, i) => <Skeleton key={id + i} />);
 
   const getData = async () => {
     try {
       setIsLoading(true);
-      dispatch(fetchPizza({currentPage, categoryId, sort, type}));
+      dispatch(fetchPizza({ currentPage, categoryId, sort, type }));
     } catch (error) {
       console.log(error);
     }
@@ -92,8 +92,22 @@ const Home = () => {
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">{categories[categoryId]} пиццы</h2>
-      <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
+      {status === "rejected" ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>
+            К сожалению, не удалось получить пиццы. Попробуйте повторить попытку
+            позже.
+          </p>
+        </div>
+      ) : (
+        <>
+          <h2 className="content__title">{categories[categoryId]} пиццы</h2>
+          <div className="content__items">
+            {status === "loading" ? skeletons : pizzas}
+          </div>
+        </>
+      )}
       <Pagination />
     </div>
   );
