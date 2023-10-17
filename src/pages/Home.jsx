@@ -9,15 +9,15 @@ import Categories from "../components/Categories/Categories";
 import Sort from "../components/Sort/Sort";
 import PizzaList from "../components/PizzaList/PizzaList";
 import Pagination from "../components/Pagination/Pagination";
-import axios from "axios";
 
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
+import { setPizzas, fetchPizza } from "../redux/pizza/pizzaSlice";
 
 const Home = () => {
   const id = useId();
   const [isLoading, setIsLoading] = useState(true);
-  const [pizzaList, setPizzaList] = useState([]);
+  const {items:pizzaList, status} = useSelector((state) => state.pizza);
   const navigate = useNavigate();
   const isMounted = useRef(false);
 
@@ -49,14 +49,12 @@ const Home = () => {
   const skeletons = [...new Array(10)].map((_, i) => <Skeleton key={id + i} />);
 
   const getData = async () => {
-    setIsLoading(true);
-    const response = await axios.get(
-      `https://651124e6829fa0248e3f8e9e.mockapi.io/items?page=${currentPage}&limit=4&${
-        categoryId === 0 ? "" : `category=${categoryId}`
-      }&sortBy=${sort}&order=${type}`
-    );
-    const data = await response.data;
-    setPizzaList(data);
+    try {
+      setIsLoading(true);
+      dispatch(fetchPizza({currentPage, categoryId, sort, type}));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -95,7 +93,7 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">{categories[categoryId]} пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
       <Pagination />
     </div>
   );
